@@ -36,10 +36,3 @@ legend('J(theta)')
 J=J_history(num_iters)
 theta
 end
-
-%loadtest.txt file
-1	2	2	2.5
-2	4	5	4
-3	7	7	-1.5
-4	8	8	-2
-5	13	19	11.5
