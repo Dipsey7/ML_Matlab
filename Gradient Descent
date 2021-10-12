@@ -1,0 +1,45 @@
+function J = CostFunctionM(x,y,theta)
+%x=[1 1 2 2;1 2 5 4;1 3 7 7;1 4 8 8;1 5 19 13];
+%y=[5.5;10;9;10;31];
+%theta=[3;3;3;3];   %theta=[4;0.5;3;2.5]
+[m,n]=size(x);
+h=x*theta;
+error=h-y;
+error_sqr=error.^2;
+J=1/(2*m)*sum(error_sqr);
+%plot(x,y,'rx')
+end
+
+function [theta,J_history] = GradientDescentMLH(x,y,theta,alpha,num_iters)
+dataset=load('loadtest.txt');
+[m,n]=size(dataset);
+x=dataset(:,1:(n-1));
+x=[ones(m,1),x];
+y=dataset(:,n);
+theta=zeros(n,1);
+num_iters=80000;
+alpha=0.01;
+J_history=zeros(num_iters,1);   %preallocation
+for iter=1:num_iters
+    h=x*theta;
+    errors_vector=h-y;
+    gradient=(x'*errors_vector)*(1/m)*alpha;
+    theta=theta-gradient;
+    J_history(iter)=CostFunctionM(x,y,theta);
+end
+plot((1:iter)',J_history,'-r','LineWidth',2)
+title('Cost Function Plot')
+xlabel('# of Iterations')
+ylabel('J')
+set(gca,'XTick',0:(iter/10):iter)
+legend('J(theta)')
+J=J_history(num_iters)
+theta
+end
+
+%loadtest.txt file
+1	2	2	2.5
+2	4	5	4
+3	7	7	-1.5
+4	8	8	-2
+5	13	19	11.5
